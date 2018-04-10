@@ -1,2 +1,4 @@
 pronouncing
 nltk
+pillow
+bs4

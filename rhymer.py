@@ -1,6 +1,4 @@
 import pronouncing, nltk
-import random
-import sys
 
 # download tagger
 try:
@@ -21,21 +19,3 @@ def make_sentence(query):
     choice_nouns = list(rhymes.intersection(common_nouns))
 
     return choice_nouns
-
-"""
-Main
-"""
-if __name__ == "__main__":
-
-    if len(sys.argv) == 2:
-        
-        # do the meme
-        query = sys.argv[1]
-        nouns = make_sentence(query)
-
-        if len(nouns) > 0:
-            print("You've heard of Elf on the Shelf. Now get ready for...")
-            print(query + " on a " + nouns[random.randint(0, len(nouns)-1)])
-
-    else:
-        print("No query provided")
