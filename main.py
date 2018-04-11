@@ -18,7 +18,15 @@ if __name__ == "__main__":
         chosen_noun = nouns[random.randint(0, len(nouns)-1)]
 
         img_list = img_search.get_img_from_search(chosen_noun)
-        img_edit.construct_img(query, img_list[random.randint(0, len(img_list)-1)], 500)
+
+        # keep trying until valid img
+        got_img = False
+        while not got_img:
+            try:
+                img_edit.construct_img(query, img_list[random.randint(0, len(img_list)-1)], 500)
+                got_img = True
+            except:
+                pass
 
         if len(nouns) > 0:
             print("You've heard of Elf on the Shelf. Now get ready for...")
