@@ -2,3 +2,4 @@ pronouncing
 nltk
 pillow
 google_images_download
+tweepy

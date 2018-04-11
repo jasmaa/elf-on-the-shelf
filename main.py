@@ -4,19 +4,41 @@ import rhymer
 
 import random
 import sys
+import os
+import time
+import tweepy
+
+def file2list(file_name):
+    with open(file_name, 'r') as f:
+        return f.read().split("\n")
 
 """
 Main
 """
 if __name__ == "__main__":
 
-    if len(sys.argv) == 2:
+    creds = file2list("creds.txt")
 
+    CONSUMER_KEY = creds[0]
+    CONSUMER_SECRET = creds[1]
+    ACCESS_KEY = creds[2]
+    ACCESS_SECRET = creds[3]
+    auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
+    auth.set_access_token(ACCESS_KEY, ACCESS_SECRET)
+    api = tweepy.API(auth)
+
+    # bot loop
+    while True:
         # do the meme
-        query = sys.argv[1]
+        query_list = file2list("query_list.txt")
+        query = query_list[random.randint(0, len(query_list)-1)]
         nouns = rhymer.make_sentence(query)
         chosen_noun = nouns[random.randint(0, len(nouns)-1)]
 
+        if len(nouns) <= 0:
+            pass
+
+        # load images
         img_list = img_search.get_img_from_search(chosen_noun)
 
         # keep trying until valid img
@@ -28,9 +50,14 @@ if __name__ == "__main__":
             except:
                 pass
 
-        if len(nouns) > 0:
-            print("You've heard of Elf on the Shelf. Now get ready for...")
-            print(query + " on a " + chosen_noun)
+        # post
+        fn = os.path.abspath("./images/out.png")
+        msg = "#blairsilverstrea\nYou've heard of Elf on the Shelf. Now get ready for..."
+        api.update_with_media(fn, msg)
+
+        print(query + " on a " + chosen_noun)
+
+        time.sleep(1200)
 
     else:
         print("No query provided")
