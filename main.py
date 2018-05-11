@@ -33,29 +33,32 @@ if __name__ == "__main__":
         query_list = file2list("query_list.txt")
         query = query_list[random.randint(0, len(query_list)-1)]
         nouns = rhymer.make_sentence(query)
-        chosen_noun = nouns[random.randint(0, len(nouns)-1)]
 
         if len(nouns) <= 0:
-            pass
+            continue
+
+        chosen_noun = nouns[random.randint(0, len(nouns)-1)]
 
         # load images
         img_list = img_search.get_img_from_search(chosen_noun)
 
         # keep trying until valid img
-        got_img = False
-        while not got_img:
-            try:
-                img_edit.construct_img(query, img_list[random.randint(0, len(img_list)-1)], 500)
-                got_img = True
-            except:
-                pass
+        #got_img = False
+        #while not got_img:
+        #    try:
+        img_edit.construct_img(query, img_list[random.randint(0, len(img_list)-1)], 500)
+        #got_img = True
+        #    except:
+        #        pass
 
         # post
         fn = os.path.abspath("./images/out.png")
         msg = "#blairsilverstrea\nYou've heard of Elf on the Shelf. Now get ready for..."
-        api.update_with_media(fn, msg)
 
         print(query + " on a " + chosen_noun)
+
+        #api.update_with_media(fn, msg)
+        break
 
         time.sleep(1200)
 
